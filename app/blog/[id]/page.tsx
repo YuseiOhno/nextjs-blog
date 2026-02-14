@@ -1,4 +1,5 @@
 import { Post } from "@/app/lib/types/Post";
+import BlogPostDetail from "@/app/ui/BlogPostDetails";
 
 const siteUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
 
@@ -22,13 +23,5 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
     return <div>投稿が見つかりません</div>;
   }
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-600 mb-4">
-        {post.author} - {new Date(post.createdAt).toLocaleDateString()}
-      </p>
-      <div className="prose lg:prose-xl">{post.content}</div>
-    </div>
-  );
+  return <BlogPostDetail post={post} />;
 }

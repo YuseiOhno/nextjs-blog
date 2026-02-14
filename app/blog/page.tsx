@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Post } from "@/app/lib/types/Post";
+import BlogPostCard from "../ui/BlogPostCard";
 
 const siteUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
 
@@ -20,21 +20,11 @@ export default async function BlogList() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">ブログ投稿一覧</h1>
-      <ul className="space-y-4">
-        {posts.map((post: Post) => (
-          <li key={post.id} className="border p-4 rounded-lg">
-            <Link
-              href={`/blog/${post.id}`}
-              className="text-xl font-semibold text-blue-600 hover:underline"
-            >
-              {post.title}
-            </Link>
-            <p className="text-gray-600">
-              {post.author} - {new Date(post.createdAt).toLocaleDateString()}
-            </p>
-          </li>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <BlogPostCard key={post.id} post={post} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
