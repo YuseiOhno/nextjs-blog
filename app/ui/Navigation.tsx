@@ -22,6 +22,11 @@ export default function Navigation() {
         </Link>
         <ul className="flex space-x-4">
           <li>
+            <Link href="/signup" className={navLinkClasses("/blog")}>
+              Sign Up
+            </Link>
+          </li>
+          <li>
             <Link href="/blog" className={navLinkClasses("/blog")}>
               Blog
             </Link>

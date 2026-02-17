@@ -1,12 +1,17 @@
 import { authClient } from "../lib/auth-client";
 
-type Props = {
+type SignUpProps = {
   name: string;
   email: string;
   password: string;
 };
 
-export const signup = async ({ name, email, password }: Props) => {
+type SignInProps = {
+  email: string;
+  password: string;
+};
+
+export const signUp = async ({ name, email, password }: SignUpProps) => {
   const res = await authClient.signUp.email({
     name,
     email,
@@ -14,4 +19,17 @@ export const signup = async ({ name, email, password }: Props) => {
     callbackURL: "/blog",
   });
   return res;
+};
+
+export const signIn = async ({ email, password }: SignInProps) => {
+  const res = await authClient.signIn.email({
+    email,
+    password,
+    callbackURL: "/blog",
+  });
+  return res;
+};
+
+export const signOut = async () => {
+  await authClient.signOut();
 };
