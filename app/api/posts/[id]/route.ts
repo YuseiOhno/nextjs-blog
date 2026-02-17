@@ -6,6 +6,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const { id } = await params;
     const post = await prisma.post.findUnique({
       where: { id: parseInt(id) },
+      include: {
+        user: {
+          select: { name: true },
+        },
+      },
     });
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
