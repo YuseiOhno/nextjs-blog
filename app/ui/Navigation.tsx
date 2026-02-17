@@ -2,16 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
+import { signOut } from "../lib/auth-actions";
 
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const navLinkClasses = (href: string) =>
     clsx("hover:underline", {
       "font-bold": pathname === href,
     });
+
+  const handleLogout = async () => {
+    const confirmed = window.confirm("ログアウトしますか？");
+    if (!confirmed) return;
+
+    try {
+      await signOut();
+      router.push("/login");
+      router.refresh();
+    } catch {
+      window.alert("ログアウトに失敗しました。時間をおいて再度お試しください。");
+    }
+  };
 
   return (
     <header className="bg-blue-500 text-white p-4">
@@ -22,8 +37,13 @@ export default function Navigation() {
         </Link>
         <ul className="flex space-x-4">
           <li>
-            <Link href="/signup" className={navLinkClasses("/blog")}>
+            <Link href="/signup" className={navLinkClasses("/signup")}>
               Sign Up
+            </Link>
+          </li>
+          <li>
+            <Link href="/login" className={navLinkClasses("/login")}>
+              Log In
             </Link>
           </li>
           <li>
@@ -35,6 +55,11 @@ export default function Navigation() {
             <Link href="/blog/new" className={navLinkClasses("/blog/new")}>
               New Post
             </Link>
+          </li>
+          <li>
+            <button type="button" onClick={handleLogout} className="hover:underline">
+              Logout
+            </button>
           </li>
         </ul>
       </nav>
