@@ -9,6 +9,7 @@ type SignUpProps = {
 type SignInProps = {
   email: string;
   password: string;
+  callbackURL?: string;
 };
 
 export const signUp = async ({ name, email, password }: SignUpProps) => {
@@ -21,11 +22,11 @@ export const signUp = async ({ name, email, password }: SignUpProps) => {
   return res;
 };
 
-export const signIn = async ({ email, password }: SignInProps) => {
+export const signIn = async ({ email, password, callbackURL }: SignInProps) => {
   const res = await authClient.signIn.email({
     email,
     password,
-    callbackURL: "/blog",
+    callbackURL: callbackURL ?? "/blog",
   });
   return res;
 };

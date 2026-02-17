@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import { signIn } from "../lib/auth-actions";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function LogInPage() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callback = searchParams.get("callback");
+  const callbackURL =
+    callback && callback.startsWith("/") && !callback.startsWith("//") ? callback : "/blog";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,14 +21,13 @@ export default function LogInPage() {
     const res = await signIn({
       email,
       password,
+      callbackURL,
     });
 
     if (res.error) {
-      setError(res.error.message ?? "サインアップに失敗しました。");
+      setError(res.error.message ?? "ログインに失敗しました。");
       return;
     }
-
-    router.push("/blog");
   };
 
   return (
