@@ -5,8 +5,12 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { signOut } from "../lib/auth-actions";
+import { authClient } from "../lib/auth-client";
 
 export default function Navigation() {
+  const { data: session, isPending } = authClient.useSession();
+  const isLoggedIn = !!session?.user;
+
   const pathname = usePathname();
   const router = useRouter();
 
@@ -37,30 +41,38 @@ export default function Navigation() {
         </Link>
         <ul className="flex space-x-4">
           <li>
-            <Link href="/signup" className={navLinkClasses("/signup")}>
-              Sign Up
-            </Link>
-          </li>
-          <li>
-            <Link href="/login" className={navLinkClasses("/login")}>
-              Log In
-            </Link>
-          </li>
-          <li>
             <Link href="/blog" className={navLinkClasses("/blog")}>
               Blog
             </Link>
           </li>
-          <li>
-            <Link href="/blog/new" className={navLinkClasses("/blog/new")}>
-              New Post
-            </Link>
-          </li>
-          <li>
-            <button type="button" onClick={handleLogout} className="hover:underline">
-              Logout
-            </button>
-          </li>
+          {!isPending && !isLoggedIn ? (
+            <>
+              <li>
+                <Link href="/signup" className={navLinkClasses("/signup")}>
+                  Sign Up
+                </Link>
+              </li>
+              <li>
+                <Link href="/login" className={navLinkClasses("/login")}>
+                  Log In
+                </Link>
+              </li>
+            </>
+          ) : null}
+          {!isPending && isLoggedIn ? (
+            <>
+              <li>
+                <Link href="/blog/new" className={navLinkClasses("/blog/new")}>
+                  New Post
+                </Link>
+              </li>
+              <li>
+                <button type="button" onClick={handleLogout} className="hover:underline">
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : null}
         </ul>
       </nav>
     </header>
