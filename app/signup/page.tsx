@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "../lib/auth-client";
+import { signup } from "../lib/auth-actions";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -15,11 +15,10 @@ export default function SignUpPage() {
     e.preventDefault();
     setError("");
 
-    const res = await authClient.signUp.email({
+    const res = await signup({
       name,
       email,
       password,
-      callbackURL: "/blog",
     });
 
     if (res.error) {
