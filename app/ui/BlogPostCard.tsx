@@ -15,7 +15,7 @@ export default function BlogPostCard({ post }: Props) {
             {post.content.length > 100 ? `${post.content.substring(0, 100)}...` : post.content}
           </p>
           <div className="flex justify-between items-center text-sm text-gray-500">
-            <span>{post.author}</span>
+            <span>{post.user.name}</span>
             <span>{new Date(post.createdAt).toLocaleDateString()}</span>
           </div>
         </div>

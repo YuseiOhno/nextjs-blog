@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function NewPost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
@@ -19,7 +18,7 @@ export default function NewPost() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, author }),
+        body: JSON.stringify({ title, content }),
       });
 
       if (response.ok) {
@@ -65,19 +64,6 @@ export default function NewPost() {
             rows={5}
             required
           ></textarea>
-        </div>
-        <div>
-          <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
-            著者
-          </label>
-          <input
-            type="text"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
         </div>
         <button
           type="submit"

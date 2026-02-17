@@ -13,7 +13,6 @@ export default function BlogPostDetail({ post }: Props) {
       <header>
         <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
         <div className="text-gray-600 mb-4">
-          <span>By {post.author}</span>・
           <time dateTime={post.createdAt}>{createdDate.toLocaleDateString()}</time>
           {post.updatedAt && updatedDate > createdDate && (
             <span>
@@ -22,6 +21,7 @@ export default function BlogPostDetail({ post }: Props) {
               <time dateTime={post.updatedAt}>{updatedDate.toLocaleDateString()}</time>
             </span>
           )}
+          <span> ・ {post.user.name}</span>
         </div>
       </header>
       <div className="prose lg:prose-xl">
