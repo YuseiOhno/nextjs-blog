@@ -10,5 +10,5 @@ export default async function NewPostPage() {
     redirect("/login?callback=/blog/new");
   }
 
-  return <BlogPostForm action={createPostAction} formLabel={"新規投稿作成"} />;
+  return <BlogPostForm mode={"create"} action={createPostAction} />;
 }
