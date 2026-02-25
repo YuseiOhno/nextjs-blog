@@ -1,6 +1,9 @@
+import { auth } from "@/app/lib/auth";
 import prisma from "@/app/lib/prisma";
 import BlogPostDetail from "@/app/ui/BlogPostDetails";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { deletePostAction } from "./action";
 
 const validatedId = (id: string): number | null => {
   const num = Number(id);
@@ -29,5 +32,10 @@ export default async function BlogPost({ params }: { params: Promise<{ id: strin
   }
 
   if (!post) notFound();
-  return <BlogPostDetail post={post} />;
+
+  const deleteAction = deletePostAction.bind(null, postId);
+  const session = await auth.api.getSession({ headers: await headers() });
+  const canManagePost = !!session?.user && session.user.id === post.userId;
+
+  return <BlogPostDetail post={post} canManagePost={canManagePost} deleteAction={deleteAction} />;
 }
