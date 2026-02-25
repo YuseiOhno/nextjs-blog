@@ -14,7 +14,7 @@ export default async function BlogList() {
     });
   } catch (e) {
     console.error("Database Error", e);
-    throw new Error("読み込みに失敗しました。");
+    throw new Error("投稿の取得に失敗しました。");
   }
 
   return (

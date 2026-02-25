@@ -5,25 +5,22 @@ type Props = {
 };
 
 export default function BlogPostDetail({ post }: Props) {
-  const createdDate = new Date(post.createdAt);
-  const updatedDate = new Date(post.updatedAt);
-
   return (
     <article className="max-w-2xl mx-auto">
       <header>
-        <h1 className="text-2xl pb-4 mb-4 text-gray-800 border-b border-gray-900/10">
+        <h1 className="text-2xl pb-4 mb-2 text-gray-800 border-b border-gray-900/10">
           {post.title}
         </h1>
-        <div className="text-gray-600 mb-4">
-          <time dateTime={post.createdAt}>{createdDate.toLocaleDateString()}</time>
-          {post.updatedAt && updatedDate > createdDate && (
-            <span>
-              {" "}
-              • Updated:
-              <time dateTime={post.updatedAt}>{updatedDate.toLocaleDateString()}</time>
-            </span>
+        <div className="mb-2"> {post.user.name}</div>
+        <div className="text-gray-600 mb-4 flex items-center gap-3 text-sm">
+          {post.updatedAt > post.createdAt && (
+            <time dateTime={post.updatedAt.toISOString()}>
+              最終更新日 {post.updatedAt.toLocaleDateString("ja-JP")}
+            </time>
           )}
-          <span> ・ {post.user.name}</span>
+          <time dateTime={post.createdAt.toISOString()}>
+            投稿日 {post.createdAt.toLocaleDateString("ja-JP")}
+          </time>
         </div>
       </header>
       <div className="prose lg:prose-xl">
