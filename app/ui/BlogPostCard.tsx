@@ -18,7 +18,7 @@ export default function BlogPostCard({ post }: Props) {
           </p>
           <div className="flex justify-between items-center text-sm text-gray-500">
             <span>{post.user.name}</span>
-            <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+            <span>{post.createdAt.toLocaleDateString("ja-JP")}</span>
           </div>
         </div>
       </article>
