@@ -1,7 +1,7 @@
 import { Post } from "@/app/lib/types/Post";
 import BlogPostDetail from "@/app/ui/BlogPostDetails";
 
-const siteUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+const siteUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
 async function getPost(id: string): Promise<Post | null> {
   const res = await fetch(`${siteUrl}/api/posts/${id}`, {
