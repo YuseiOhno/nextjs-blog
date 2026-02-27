@@ -5,15 +5,10 @@ import prisma from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-
-const validatedId = (id: unknown): number | null => {
-  const num = Number(id);
-  if (!Number.isInteger(num) || num <= 0) return null;
-  return num;
-};
+import { validateId } from "@/app/lib/validate";
 
 export async function deletePostAction(id: number): Promise<void> {
-  const postId = validatedId(id);
+  const postId = validateId(id);
   if (!postId) throw new Error("不正なIDです");
 
   const session = await auth.api.getSession({ headers: await headers() });
