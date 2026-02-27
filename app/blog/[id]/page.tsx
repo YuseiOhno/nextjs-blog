@@ -4,16 +4,11 @@ import BlogPostDetail from "@/app/ui/BlogPostDetails";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { deletePostAction } from "./action";
-
-const validatedId = (id: string): number | null => {
-  const num = Number(id);
-  if (!Number.isInteger(num) || num <= 0) return null;
-  return num;
-};
+import { validateId } from "@/app/lib/validate";
 
 export default async function BlogPost({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const postId = validatedId(id);
+  const postId = validateId(id);
   if (!postId) notFound();
 
   let post;
