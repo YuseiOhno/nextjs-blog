@@ -1,14 +1,9 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { auth } from "@/app/lib/auth";
 import BlogPostForm from "../../ui/BlogPostForm";
 import { createPostAction } from "./action";
+import { requireSession } from "@/app/lib/auth/guards";
 
 export default async function NewPostPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) {
-    redirect("/login?callback=/blog/new");
-  }
+  await requireSession("/login?callback=/blog/new");
 
   return <BlogPostForm mode={"create"} action={createPostAction} />;
 }

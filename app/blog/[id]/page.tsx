@@ -1,4 +1,4 @@
-import { auth } from "@/app/lib/auth";
+import { auth } from "@/app/lib/auth/server";
 import prisma from "@/app/lib/prisma";
 import BlogPostDetail from "@/app/ui/BlogPostDetails";
 import { headers } from "next/headers";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "../lib/auth-actions";
+import { signIn } from "../lib/auth/actions";
 import { useSearchParams } from "next/navigation";
 
 export default function LogInPage() {
