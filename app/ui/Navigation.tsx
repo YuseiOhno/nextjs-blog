@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
-import { signOut } from "../lib/auth-actions";
-import { authClient } from "../lib/auth-client";
+import { signOut } from "../lib/auth/actions";
+import { authClient } from "../lib/auth/client";
 
 export default function Navigation() {
   const { data: session, isPending } = authClient.useSession();
