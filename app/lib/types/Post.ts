@@ -16,6 +16,19 @@ export type PostCreateInput = {
   content: string;
 };
 
+/** 投稿フォームのバリデーション結果の型 */
+export type PostState = {
+  ok: boolean;
+  errors?: {
+    title?: string[];
+    content?: string[];
+  };
+  values?: {
+    title?: string;
+    content?: string;
+  };
+};
+
 /** 投稿編集時の入力 */
 export type PostEditInput = {
   id: number;

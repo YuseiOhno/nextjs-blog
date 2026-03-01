@@ -5,23 +5,30 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { validateId } from "@/app/lib/validate";
 import { requirePostOwner } from "@/app/lib/auth/guards";
+import { postFormValidate } from "@/app/lib/validate";
+import type { PostState } from "@/app/lib/types/Post";
 
-export async function updatePostAction(id: number, formData: FormData) {
+export async function updatePostAction(
+  id: number,
+  _prevState: PostState,
+  formData: FormData,
+): Promise<PostState> {
   const postId = validateId(id);
   if (!postId) throw new Error("不正なIDです");
 
   await requirePostOwner(postId);
 
-  const title = String(formData.get("title") ?? "").trim();
-  const content = String(formData.get("content") ?? "").trim();
-
-  if (!title || !content) {
-    throw new Error("タイトルと内容の入力は必須です。");
+  const result = postFormValidate(formData);
+  if (!result.ok) {
+    return result;
   }
 
   await prisma.post.update({
     where: { id: postId },
-    data: { title, content },
+    data: {
+      title: String(formData.get("title") ?? "").trim(),
+      content: String(formData.get("content") ?? "").trim(),
+    },
   });
 
   revalidatePath(`/blog/${postId}`);
