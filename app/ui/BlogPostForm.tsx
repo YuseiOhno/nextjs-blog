@@ -20,11 +20,14 @@ type EditProps = {
 type Props = CreateProps | EditProps;
 
 export default function BlogPostForm(props: Props) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
   const action = props.mode === "edit" ? updatePostAction.bind(null, props.post.id) : props.action;
   const [state, formAction] = useActionState(action, { ok: true });
+
+  const initialTitle = state.values?.title ?? (props.mode === "edit" ? props.post.title : "");
+  const initialContent = state.values?.content ?? (props.mode === "edit" ? props.post.content : "");
+
+  const [title, setTitle] = useState(initialTitle);
+  const [content, setContent] = useState(initialContent);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -42,7 +45,7 @@ export default function BlogPostForm(props: Props) {
             maxLength={100}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            defaultValue={state.values?.title ?? (props.mode === "edit" ? props.post.title : "")}
+            defaultValue={title}
           />
           <div className="flex item-center justify-between text-sm">
             <p className="text-red-600">{state.errors?.title?.[0] ?? ""}</p>
@@ -61,9 +64,7 @@ export default function BlogPostForm(props: Props) {
             onChange={(e) => setContent(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             rows={5}
-            defaultValue={
-              state.values?.content ?? (props.mode === "edit" ? props.post.content : "")
-            }
+            defaultValue={content}
           ></textarea>
           <div className="flex item-center justify-between text-sm">
             <p className="text-red-600 ">{state.errors?.content?.[0] ?? ""}</p>
